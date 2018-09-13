@@ -1,4 +1,3 @@
-//Jeff Chastine
 #include <Windows.h>
 #include <GL\glew.h>
 #include <GL\freeglut.h>
@@ -18,7 +17,6 @@ void render()
 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 glutSwapBuffers();
 }
-
 /*CECILIA TACKETT
 COMPUTER GRAPHICS:
 HOMEWORK 1
@@ -55,7 +53,7 @@ void SetupRC(void) {
  
 //**********************RenderScene Function***********************
 void RenderScene(void) {
-	double x, y, z, xdel = 0.25;
+	double x, y, xdel = 0.25;
 	//clear the window
 	//now clear the open window
 	glClear(GL_COLOR_BUFFER_BIT);//note that clear color was set up in SetupRC
@@ -66,7 +64,7 @@ void RenderScene(void) {
 	glViewport(100, 100, 900, 500);
 	//establish the clipping volumn in user units
 
-	glOrtho(-15.0, 15.0, -15.0, 30.0, 5.0, -5.0);
+	glOrtho(-30.0, 30.0, -30.0, 60.0, 10.0, -10.0);
 	//Draw x-axis and y-axis and place tic marks on each
 	glBegin(GL_LINES);
 
@@ -80,31 +78,31 @@ void RenderScene(void) {
 
 		};
 		//set end points of y-axis
-		glVertex2f(0.0, -20.0); //ybottom
-		glVertex2f(0.0, 50.0); //ytop
+		glVertex2f(0.0, -30.0); //ybottom
+		glVertex2f(0.0, 60.0); //ytop
 		//now put tic marks on the axis
-		for (y = -20.0; y <= 50.0; y += 1.0) {
+		for (y = -30.0; y <= 60.0; y += 1.0) {
 			glVertex2f(-0.15, y);
 			glVertex2f(0.15, y);
 		};
 	glEnd();
 	//now draw the function
 	glBegin(GL_LINE_STRIP);
-	for (x = -4.0; x <= 5.0; x += xdel) {
+	for (x = -20.0; x <= 50; x += xdel) {
 		y = x * x * x + x * x - 20.0 * x;
 		glVertex2f(x, y);
 		glColor3f(0.2, 0.6, 0.9);
 	};
 	glEnd();
 	glBegin(GL_LINE_STRIP);
-	for (x = -4.0; x <= 5.0; x += xdel) {
+	for (x = -20.0; x <= 20.0; x += xdel) {
 		y = 10 * cos(x) + 3.0;
 		glVertex2f(x, y);
 		glColor3f(1.0, 0.6, 0.9);
 	};
 	glEnd();
 	glBegin(GL_LINE_STRIP);
-	for (x = -4.0; x <= 5.0; x += xdel) {
+	for (x = -20.0; x <= 50.0; x += xdel) {
 		y =(x * x * x + x * x - 20.0 * x)-(10 * cos(x) + 3.0);
 		glVertex2f(x, y);
 		glColor3f(0.0, 1.0, 0.0);
