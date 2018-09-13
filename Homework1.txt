@@ -1,0 +1,116 @@
+//Jeff Chastine
+#include <Windows.h>
+#include <GL\glew.h>
+#include <GL\freeglut.h>
+#include <iostream>
+
+using namespace std;
+void RenderScene();
+void SetupRC();
+
+void changeViewPort(int w, int h)
+{
+glViewport(0, 0, w, h);
+}
+
+void render()
+{
+glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+glutSwapBuffers();
+}
+
+/*CECILIA TACKETT
+COMPUTER GRAPHICS:
+HOMEWORK 1
+DUE 9/13/2018*/
+
+int main(int argc, char* *argv) {
+	//set up window Title
+	char header[] = "graph of y=x*x-x-6 by Joe Student";
+	//Initialize the glopen utility toolkit
+	glutInit(&argc, argv);
+	//Set up the display mode with a single buffer and RGB colors
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
+	glutInitWindowSize(1016, 680);
+	glutInitWindowPosition(0, 0);
+
+	//Open and Label Window
+	glutCreateWindow(header);
+	//Now Point to the function that will draw the scene
+	glutDisplayFunc(RenderScene);
+	//NOW set the state of the rendering machine
+	SetupRC();
+	//Now execute OpenGL using RenderScene with state as set in RenderScene
+	glutMainLoop();
+	return 0;
+}
+//**********************FUNCTION SETUPRC*******************************
+//Setup the rendering state
+void SetupRC(void) {
+	//this function sets the clear color of an open window and clears the open window
+	//set clear color to green
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	return;
+}//end of SetupRC
+ 
+//**********************RenderScene Function***********************
+void RenderScene(void) {
+	double x, y, z, xdel = 0.25;
+	//clear the window
+	//now clear the open window
+	glClear(GL_COLOR_BUFFER_BIT);//note that clear color was set up in SetupRC
+	glLoadIdentity();
+	//set the current drawing color to black
+	glColor3f(1.0, 1.0, 1.0);
+	//set the viewport
+	glViewport(100, 100, 900, 500);
+	//establish the clipping volumn in user units
+
+	glOrtho(-15.0, 15.0, -15.0, 30.0, 5.0, -5.0);
+	//Draw x-axis and y-axis and place tic marks on each
+	glBegin(GL_LINES);
+
+		//Set end points of x-axis
+		glVertex2f(-20.0, 0.0); //x-left
+		glVertex2f(20.0, 0.0); //x-right
+		//Now put the tics marks
+		for (x = -20.0; x <= 20.0; x += 1.0) {
+			glVertex2f(x, 0.0);
+			glVertex2f(x, 0.5);
+
+		};
+		//set end points of y-axis
+		glVertex2f(0.0, -20.0); //ybottom
+		glVertex2f(0.0, 50.0); //ytop
+		//now put tic marks on the axis
+		for (y = -20.0; y <= 50.0; y += 1.0) {
+			glVertex2f(-0.15, y);
+			glVertex2f(0.15, y);
+		};
+	glEnd();
+	//now draw the function
+	glBegin(GL_LINE_STRIP);
+	for (x = -4.0; x <= 5.0; x += xdel) {
+		y = x * x * x + x * x - 20.0 * x;
+		glVertex2f(x, y);
+		glColor3f(0.2, 0.6, 0.9);
+	};
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	for (x = -4.0; x <= 5.0; x += xdel) {
+		y = 10 * cos(x) + 3.0;
+		glVertex2f(x, y);
+		glColor3f(1.0, 0.6, 0.9);
+	};
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+	for (x = -4.0; x <= 5.0; x += xdel) {
+		y =(x * x * x + x * x - 20.0 * x)-(10 * cos(x) + 3.0);
+		glVertex2f(x, y);
+		glColor3f(0.0, 1.0, 0.0);
+	};
+	glEnd();
+	//clear all the buffers
+	glFlush();
+	return;
+};//end of render scene
